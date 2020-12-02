@@ -1,0 +1,18 @@
+extends layout
+
+block content
+  script function updateTextInput(val) {document.getElementById('textInput').innerText='Edit ratio to buffer: '+val+' %';}
+  h1 Manage profile 
+  form(action='/edit' method='POST' enctype='multipart/form-data')
+    #form-group
+      label Upload house picture:
+      br
+      input(type='file', name='imageupload')
+      br
+      label#textInput Edit ratio to buffer: #{rb*100} %:
+      br
+      input(id='rb', type='range', min=0, max=100, name='ratiobuffer', onchange='updateTextInput(this.value);')  
+    br
+    input.btn.btn-primary(type='submit', value='Submit')
+    script document.getElementById('rb').value=#{rb*100};
+

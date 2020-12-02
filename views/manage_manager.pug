@@ -1,0 +1,18 @@
+extends layout
+
+block content
+	
+	h1 Manager #{username}
+	
+	p
+		li#p Market price: #{simulator.price}
+		li#w Wind speed: #{simulator.wind}
+	p
+		li#b Battery buffer: #{client.buffer}
+		li#hc Consumption: #{client.consumption}
+		li#hp Production: #{client.production}
+		li#net Net production: #{client.production-client.consumption}
+		li#rb Ratio to buffer: #{client.ratio_buffer*100}%
+
+	img.image(src='/uploads/'+user.picture, width='350', height='250')
+	script(src='/js/main.js')

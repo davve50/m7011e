@@ -1,0 +1,10 @@
+extends layout
+
+block content
+	h1 Administration
+	div#left
+		ul 
+			each user, i in users
+				li(onclick='alert('+i+')')= user.username 
+	div#right 
+		

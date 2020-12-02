@@ -1,0 +1,46 @@
+doctype html
+html
+  head
+    title m7011e
+    link(rel='stylesheet' href='/bower_components/bootstrap/dist/css/bootstrap.css')
+    link(rel='stylesheet' href='/css/style.css')
+    
+  body
+  nav.navbar.navbar-expand-md.navbar-dark.bg-dark
+    a.navbar-brand(href='/') m7011e
+    button.navbar-toggler(type='button' data-toggle='collapse' data-target='#navbarsExampleDefault' aria-controls='navbarsExampleDefault' aria-expanded='false' aria-label='Toggle navigation')
+      span.navbar-toggler-icon
+    #navbarsExampleDefault.collapse.navbar-collapse
+      ul.navbar-nav.mr-auto
+        li.nav-item
+          a.nav-link(href='/') Home
+      ul.nav.navbar-nav.navbar-right
+        if user 
+          if user.role == 1
+            li.nav-item
+            a.nav-link(href='/administration') Administration
+            li.nav-item
+            a.nav-link(href='/plant_production') Plant production
+
+          li.nav-item
+            a.nav-link(href='/edit') Manage Profile
+          li.nav-item
+            a.nav-link(href='/logout') Logout
+
+        else
+          li.nav-item
+            a.nav-link(href='/register') Register
+          li.nav-item
+            a.nav-link(href='/login') Login
+  .container
+    != messages('message', locals)
+    if errors 
+      each error, i in errors 
+        div(class="alert alert-danger") #{error.msg}
+    block content
+    br
+    hr
+    footer
+      p Copyright &copy; 2020
+  script(src='/bower_components/jquery/dist/jquery.js')
+  script(src='/bower_components/bootstrap/dist/js/bootstrap.js')

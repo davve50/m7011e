@@ -1,0 +1,32 @@
+extends layout
+
+block content
+  script function updateTextInput(val,i){if(!i) {document.getElementById('rbInput').innerText='Edit ratio to buffer: '+val+' %';} else {document.getElementById('rInput').innerText='Edit production rate: '+val+' %'; }}
+
+  h1 Plant production 
+  form(action='/plant_production' method='POST')
+    #form-group
+      label Market price (SEK):
+      br
+      input(id='p' name='price', type='number')
+      br 
+      label#rbInput Edit ratio to buffer: #{rb*100} %:
+      br
+      input(id='rb', type='range', min=0, max=100, name='ratiobuffer', onchange='updateTextInput(this.value,0);')  
+      br
+      label#rInput Edit production rate: #{r*100} %:
+      br
+      input(id='r', type='range', min=0, max=100, name='rate', onchange='updateTextInput(this.value,1);')  
+      br
+      label Plant status (on/off):
+      br
+      label.switch 
+        input(id='s', type='checkbox', name='status')
+        span.slider.round
+
+    br
+    input.btn.btn-primary(type='submit', value='Submit')
+    script document.getElementById('rb').value=#{rb*100};
+    script document.getElementById('r').value=#{r*100};
+    script document.getElementById('p').value=#{p};
+    script if(#{s} > 0) { document.getElementById('s').click(); }

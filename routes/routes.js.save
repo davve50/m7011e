@@ -1,0 +1,183 @@
+const express = require('express');
+const router = express.Router();
+const bcrypt = require('bcryptjs')
+const passport = require('passport');
+
+// bring in user models
+let User = require('../models/user');
+let Sim = require('../models/sim');
+let Client = require('../models/client');
+
+router.get('/', function(req,res){
+  res.render('index');
+});
+
+// register form
+router.get('/register', function(req,res){
+  res.render('register')
+});
+
+// register process
+router.post('/register', function(req,res){
+  const name = req.body.name;
+  const email = req.body.email;
+  const username = req.body.username;
+  const password = req.body.password;
+  const password2 = req.body.password2;
+  const role = req.body.role;
+
+  req.checkBody('name','Name is required').notEmpty();
+  req.checkBody('email','Email is required').notEmpty();
+  req.checkBody('email','Email is not valid').isEmail();
+  req.checkBody('username','Username is required').notEmpty();
+  req.checkBody('password','Password is required').notEmpty();
+  req.checkBody('password2','Passwords do not match').equals(req.body.password);
+  req.checkBody('role','A role is required').notEmpty();
+
+  let errors = req.validationErrors();
+
+  if(errors) {
+    res.render('register', {
+      errors:errors
+    });
+  } else {
+    let newClient = new Client({
+      type:role,
+      buffer: 0,
+      household_consumption: 0,
+      household_production: 0
+    });
+    newClient.save(function(err,c) {
+	    let newUser = new User({
+	      name:name,
+	      email:email,
+	      username:username,
+	      password:password,
+	      role:role,
+	      hid:c.id
+	    });
+	    bcrypt.genSalt(10, function(err, salt){
+	      bcrypt.hash(newUser.password, salt, function(err, hash){
+	        if(err){
+	          console.log(err);
+	        }
+	        newUser.password = hash;
+	        newUser.save(function(err){
+	          if(err){
+	            console.log(err);
+	            return;
+	          } else {
+	            req.flash('success', 'You are now registered and can log in');
+	            res.redirect('/login');
+	          }
+	        });
+	      });
+	    });
+    });
+  }
+});
+
+// login form
+router.get('/login', function(req, res){
+  res.render('login');
+});
+
+// login process
+router.post('/login', function(req, res, next){
+  passport.authenticate('local', {
+    successRedirect:'/manage',
+    failureRedirect:'/login',
+    failureFlash: true
+  })(req, res, next);
+});
+
+// logout
+router.get('/logout', function(req, res){
+  req.logout();
+  req.flash('success', 'You are logged out');
+  res.redirect('/login');
+});
+
+router.get('/manage', function(req,res){
+ console.log(req.user); 
+ if(req.user == undefined){ 
+    res.redirect('/');
+    return;
+ }
+ Sim.find({}, function(err, sim){
+    if(err) return handleError(err);
+    if(req.user.role == 1) {
+      res.render('manage_manager', {
+        username:req.user.username, simulator:sim[0]
+      });
+    }else{
+      res.render('manage_prosumer', {
+        username:req.user.username, simulator:sim[0]
+      });
+    }
+  })
+});
+
+router.get('/get_status', function(req, res){
+  Sim.find({}, function(err, sims){
+    if(err){
+      console.log(err);
+    }else{
+      res.json(sims[0]);
+    }
+});});
+
+router.get('/edit', function(req, res){
+	if(req.user.role == undefined){
+		res.redirect('/');
+		return;
+	}
+	if(req.user.role == 1){
+		res.render('edit_manager');
+	}
+	if(req.user.role == 0){
+		res.render('edit_prosumer');
+	}
+});
+
+//multer object creation
+const multer  = require('multer')
+
+// SET STORAGE
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'uploads')
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.fieldname + '-' + Date.now())
+  }
+});
+
+//const upload = multer({ storage: storage })
+
+/*router.post('/edit', upload.single('imageupload'), function(req, res) {
+	const file = req.file;
+	console.log(file);
+	if (!file) {
+	  	req.flash('failure', 'failxD');
+	  	res.redirect('/edit');
+		return;
+	}
+	req.flash('success', 'Upload successful');
+	res.redirect('/manage');
+});*/
+
+var upload = multer().single('imageupload');
+router.post('/edit', function (req, res) {
+  upload(req, res, function (err) {
+    if (err) {
+      console.log('error uploading');
+     
+	 return;
+    }
+    // Everything went fine
+  })
+});
+
+module.exports = router;
+
