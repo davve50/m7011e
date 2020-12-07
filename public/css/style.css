@@ -88,17 +88,33 @@ input:checked + .slider:before {
 	border: 1px solid black;
 	float: left;
   	color: black;
-	margin: 5%;
+	list-style-type: none;
+	padding: 5px;
 }
 
 #left ul #selected {
 	background-color: #255680;
-	background:linear-gradient(to bottom, #255680 5%, #3379b7 100%);
+	background: linear-gradient(to bottom, #255680 5%, #3379b7 100%);
+	cursor: initial;
+}
+
+#left ul li {
+	cursor: pointer;
+}
+
+#left ul li:hover {
+	background-color: green;
 }
 
 #right {
 	border: 1px solid black;
-	width:70%;
+	width: 70%;
 	float: right;
-	color: #dddddd;
+	color: black;
+	padding: 5px;
+}
+
+footer {
+	position: fixed;
+	bottom: 0px;
 }

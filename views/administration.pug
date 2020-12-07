@@ -2,9 +2,16 @@ extends layout
 
 block content
 	h1 Administration
-	div#left
-		ul 
-			each user, i in users
-				li(onclick='alert('+i+')')= user.username 
-	div#right 
-		
+	div
+		div#left
+			ul 
+				each user, i in info.users
+					li(onclick='changeProfile('+i+')')= user.username 
+		div#right
+			each client, i in info.clients
+				div(id=i)
+					p= info.users[i]
+					img.image(src='/uploads/'+info.users[i].picture) 
+	
+	script function changeProfile(nr) {for(var i = 0; i < document.getElementById('right').children.length; i++){if(i == nr) {document.getElementById(i).style.display="initial";}else{document.getElementById(i).style.display="none";}}}
+	script changeProfile(0);

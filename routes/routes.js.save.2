@@ -239,24 +239,17 @@ router.post('/edit', function (req, res) {
 });
 
 router.get('/administration', function(req,res){
-	var info = {};
-
+	var info.user;
 	if(req.user == undefined){
 		res.redirect('/login');
 	}
-	User.find({role: 0}, function(err, users){
+	User.find({role: 0}, function(err, user){
 		if(err) console.log(err);
-		info.users = users;
-		info.clients = [];
-		for(var c in users){
-			Client.find({_id: users[c].hid}, function(err, client){
-				if(err) console.log(err)
-				info.clients[info.clients.length] = client[0];
-				if(info.clients.length > c){
-					res.render('administration',{info: info});
-				}
-			});
+		info.user = users;
+		for(vad user in users){
+			Client.find({type: 0}, function(err, client){
 		}
+		if(err) console.log(err)
 	});
 });
 
@@ -290,7 +283,7 @@ router.post('/plant_production', function(req,res){
 		client[0].rate = req.body.rate/100;
 		if((req.body.status == 'off') && (client[0].status > 0)) client[0].status = 0;
 		else if((req.body.status == 'on') && (client[0].status == 0)) client[0].status = 1;
-		else if(req.body.status == undefined && client[0].status > 0) client[0].status = 0;
+		else if(req.body.status == undefined && client[0].status > 0) client[0].status = 0; 
 		console.log(client[0]);
 
 		Client.update({_id: req.user.hid}, client[0], function(err){
