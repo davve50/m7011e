@@ -10,15 +10,15 @@ function change_wind(wind){
 
 	if(wind > mean){
 		if(wind > qU){
-			prob = 9;
-		}else{
 			prob = 6;
+		}else{
+			prob = 4;
 		}
 	}else{
 		if(wind < qL){
-			prob = (10-6);
+			prob = (10-8);
 		}else{
-			prob = (10-5);
+			prob = (10-7);
 		}
 	}
 
@@ -72,11 +72,11 @@ function wind_production(wind){
 		case 0:
 			return 0;
 		case 1:
-			return (70*0.5);
+			return (200*0.5);
 		case 2:
-			return (70*1.3);
+			return (200*1.3);
 		case 3:
-			return (70*1.7);
+			return (200*1.7);
 	}
 }
 

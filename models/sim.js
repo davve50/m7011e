@@ -17,6 +17,10 @@ let SimSchema = mongoose.Schema({
 	wind:{
 		type: Number,
 		required: true,
+	},
+	consumers:{
+		type: Number,
+		required: true,
 	}
 });
 

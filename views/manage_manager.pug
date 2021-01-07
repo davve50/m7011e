@@ -5,14 +5,51 @@ block content
 	h1 Manager #{username}
 	
 	p
-		li#p Market price: #{simulator.price}
-		li#w Wind speed: #{simulator.wind}
+		li#p 
+			b Market price: 
+			| #{simulator.price} kr
+		li#w 
+			b Wind speed: 
+			| #{simulator.wind.toFixed(2)} m/s
+		li#tp 
+			b Total production: 
+			| #{simulator.total_production.toFixed(2)} kWh
+		li#tc 
+			b Total consumption: 
+			| #{simulator.total_consumption.toFixed(2)} kWh
 	p
-		li#b Battery buffer: #{client.buffer}
-		li#hc Consumption: #{client.consumption}
-		li#hp Production: #{client.production}
-		li#net Net production: #{client.production-client.consumption}
-		li#rb Ratio to buffer: #{client.ratio_buffer*100}%
+		li#b 
+			b Battery buffer: 
+			| #{client.buffer.toFixed(2)} kWh
+		li#hp 
+			b Production: 
+			| #{client.production.toFixed(2)} kWh
+		li#rb 
+			b Ratio to buffer: 
+			| #{client.ratio_buffer*100}%
+		li#r 
+			b Production rate: 
+			| #{client.rate*100}%
+		li#s 
+			b Plant status: 
+			| #{client.status?"On":"Off"}
+		li(id='d', style='display: none') 
+			b Making changes in: 
+			| #{client.ban_time}s 
+	p
+		li#man 
+			b Amount of managers: 
+			| #{client.num_man}
+		li#pro 
+			b Amount of prosumers: 
+			| #{client.num_pro}
+		li#con 
+			b Amount of consumers: 
+			| #{simulator.consumers}
+	
+		li(id='bo', style='display: none; color: red;') 
+			b Blackouts are occuring! 
+
 
 	img.image(src='/uploads/'+user.picture, width='350', height='250')
-	script(src='/js/main.js')
+	script(src='/js/manage_manager.js')

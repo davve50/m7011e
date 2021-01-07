@@ -6,12 +6,47 @@ block content
 		div#left
 			ul 
 				each user, i in info.users
-					li(onclick='changeProfile('+i+')')= user.username 
+					li(id='u-'+i, onclick='changeProfile('+i+')')= user.username 
 		div#right
 			each client, i in info.clients
 				div(id=i)
-					p= info.users[i]
 					img.image(src='/uploads/'+info.users[i].picture) 
+					div.info
+						div.infol
+							p(id='a-'+i) 
+								b Status: 
+							p 
+								b Name: 
+								| #{info.users[i].name}
+							p 
+								b Email: 
+								| #{info.users[i].email}
+							p 
+								b Username: 
+								| #{info.users[i].username}
+							p(id='ban-'+i, style='color: red; display: none;') 
+								b Ban time: #{client.ban_time/100000}s
+							p(id='bo-'+i, style='color: red; display: none;') 
+								b Blackout!
+						div.infor
+							p(id='p-'+i) 
+								b Production: 
+								| #{client.production} kWh
+							p(id='c-'+i) 
+								b Consumption: 
+								| #{client.consumption} kWh
+							p(id='n-'+i) 
+								b Net production: 
+								| #{client.production - client.consumption} kWh
+							p(id='b-'+i) 
+								b Buffer: 
+								| #{client.buffer} kWh
+							p(id='r-'+i) 
+								b Ratio to buffer: 
+								| #{client.ratio_buffer*100}%
+					div.btns
+						a(href='/edit_user/'+info.users[i]._id) Edit
 	
-	script function changeProfile(nr) {for(var i = 0; i < document.getElementById('right').children.length; i++){if(i == nr) {document.getElementById(i).style.display="initial";}else{document.getElementById(i).style.display="none";}}}
+	script function changeProfile(nr) {for(var c = 0; c < document.getElementById('left').children[0].children.length; c++){console.log("Iterate: "+c);if(document.getElementById("u-"+c).classList.contains("selected")){console.log("removing: "+ c);document.getElementById("u-"+c).classList.remove("selected");}}document.getElementById(nr).style.display = "initial";document.getElementById("u-"+nr).classList.add("selected");for(var i = 0; i < document.getElementById('right').children.length; i++){if(i != nr){document.getElementById(i).style.display = "none";}}}
 	script changeProfile(0);
+	script(src='/js/administration.js')

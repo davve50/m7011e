@@ -1,0 +1,39 @@
+extends layout
+
+block content
+  h1 Editing user: #{u.username}
+  form(method='POST', action='/edit_user')
+    #form-group
+      label Name:
+      input.form-control(id='n', name='name', type='text', value= u.name)
+    #form-group
+      label Email:
+      input.form-control(id='e', name='email', type='text', value= u.email)
+    #form-group
+      label Username:
+      input.form-control(id='u', name='username', type='text', value= u.username)
+    #form-group
+      label New password:
+      input.form-control(name='password', type='password')
+    #form-group
+      label Confirm:
+      input.form-control(name='password2', type='password')
+    #form-group
+      label Ban (s):
+      br 
+      input(type='number', name='ban', value=0, min=0, max=100)
+    #form-group
+      br
+      label Delete user:
+      br
+      label.switch
+        input(id='s', type='checkbox', name='del')
+        span.slider.round
+        input(type='hidden', name='hiddenid', value= u._id)
+        input(type='hidden', name='hiddenhid', value= u.hid)
+    br
+    input.btn.btn-primary(type='submit', value='Submit')
+    
+  //script document.getElementById('n').value=#{user.name};
+  //script document.getElementById('e').value=#{user.email};
+  //script document.getElementById('u').value=#{user.username};

@@ -79,7 +79,7 @@ input:checked + .slider:before {
 }
 
 #left {
-	width: 30%;
+	width: 12%;
 	float: left;
 	color: #dddddd;
 }
@@ -89,32 +89,84 @@ input:checked + .slider:before {
 	float: left;
   	color: black;
 	list-style-type: none;
-	padding: 5px;
+	width: 100%;
+	margin: 10px;
+	padding: 0;
 }
 
-#left ul #selected {
+#left ul .selected {
 	background-color: #255680;
-	background: linear-gradient(to bottom, #255680 5%, #3379b7 100%);
 	cursor: initial;
+	color: white;
 }
 
 #left ul li {
 	cursor: pointer;
+	width: 100%;
+	padding: 5px;
 }
 
 #left ul li:hover {
-	background-color: green;
+	background-color: #add8e6;
 }
 
 #right {
+	position: relative;
+	width: 86%;
 	border: 1px solid black;
-	width: 70%;
 	float: right;
 	color: black;
-	padding: 5px;
+	padding: 10px;
+	margin: 10px;
+}
+
+#right img {
+	float: left;
+	width: 40%;
+}
+
+.info {
+	position: relative;
+	overflow: auto;
+	padding: 10px;
+	float: right;
+	width: 60%;
+	height: 100%;
+
+}
+.infol {
+	float: left;
+	width: 40%;
+	padding: 10px;
+}
+
+.infor {
+	float: right;
+	width: 60%;
+	padding: 10px;
+}
+
+.btns {
+	position: absolute;
+	bottom: 20px;
+	right: 15px;
+}
+
+.btns a {
+	background-color: #0069d9;
+	color: white;
+	padding: 10px;
+	border-radius: 5px;
+	border-color: #0062cc;
+}
+
+.btns a:hover {
+	background-color: #0062cc;
+	border-color: #005cbf;
+	text-decoration: none;
 }
 
 footer {
 	position: fixed;
-	bottom: 0px;
+	bottom: 0;
 }

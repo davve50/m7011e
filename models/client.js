@@ -26,10 +26,30 @@ const ClientSchema = mongoose.Schema({
 		type: Number,
 		required: false,
 	},
+	rate_change: {
+		type: Number,
+		required: false,
+	},
 	status: {
 		type: Number,
+		required: false,
+	},
+	status_change: {
+		type: Number,
 		require: false,
-	} 
+	},
+	time: {
+		type: Date,
+		require: false,
+	},
+	active:{
+                type: Date,
+                required: true,
+        },
+	blackout:{
+		type: Number,
+		required: false,
+	}
 });
 
 const Client = module.exports = mongoose.model('Client', ClientSchema);

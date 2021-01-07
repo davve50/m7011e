@@ -5,14 +5,30 @@ block content
 	h1 Prosumer #{username}
 	
 	p
-		li#p Market price: #{simulator.price}
-		li#w Wind speed: #{simulator.wind}
+		li#p 
+			b Market price: 
+			| #{simulator.price} kr
+		li#w 
+			b Wind speed: 
+			| #{simulator.wind.toFixed(2)} m/s
 	p
-		li#b Battery buffer: #{client.buffer}
-		li#hc Consumption: #{client.consumption}
-		li#hp Production: #{client.production}
-		li#net Net production: #{client.production-client.consumption}
-		li#rb Ratio to buffer: #{client.ratio_buffer*100}%
+		li#b 
+			b Battery buffer: 
+			| #{client.buffer.toFixed(2)} kWh
+		li#hc 
+			b Consumption: 
+			| #{client.consumption.toFixed(2)} kWh
+		li#hp 
+			b Production: 
+			| #{client.production.toFixed(2)} kWh
+		li#net 
+			b Net production: 
+			| #{(client.production-client.consumption).toFixed(2)} kWh
+		li#rb 
+			b Ratio to buffer: 
+			| #{client.ratio_buffer*100}%
+		li(id='ban', style='display: none; color: red;') 
+			b You have been banned, time remaining: #{client.ban_time}s 
 
 	img.image(src='/uploads/'+user.picture, width='350', height='250')
-	script(src='/js/main.js')
+	script(src='/js/manage_prosumer.js')
