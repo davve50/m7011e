@@ -73,6 +73,7 @@ app.use(expressValidator({
 	}
 }));
 
+
 // passport config
 require('./config/passport')(passport);
 
