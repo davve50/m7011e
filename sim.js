@@ -21,6 +21,7 @@ function start_simulation(){
 		total_consumption:0,
 		total_production:0,
 		price:1.5,
+		sprice:1.5,
 		consumers:nr_consumers,
 		wind:Wind.init()
 	});
@@ -187,12 +188,14 @@ function consume(){
 		}
 
 		Client.find({}, function(err, clients){
+			var nr_blackouts = 0;
 			for(let i in clients){
 				if(clients[i].type == 0){
 					cycle_production -= clients[i].consumption;
 					if(cycle_production < -1){
 						clients[i].blackout = 1;
 						console.log("Prosumer "+i+" currently has a blackout");
+						nr_blackouts += 1;
 					}else{
 						clients[i].blackout = 0;
 					}
@@ -210,8 +213,40 @@ function consume(){
 					if(err) console.log(err);
 				});
 			}
+
+			var price = 0.0;
+
+			// Add base price based on current wind
+			switch(Wind.status(sim[0].wind)){
+				case 0:
+					price += 3;
+					break;
+				case 1:
+					price += 2;
+					break;
+				case 3:
+					price += 1.5;
+					break;
+				case 4:
+					price += 0.5;
+					break;
+			}
+
+			// Add surcharge price based on current electricity demands
+			if (cycle_production > 0){
+				price += 0;
+			}else if (cycle_production < 0){
+				price += nr_blackouts;
+			}
+
+			sim[0].sprice = price;
+			Sim.update({_id: sim[0]._id}, sim[0], function(err){
+				if(err) console.log(err);
+			});
+
 			setTimeout(book_consumption, cycle_time);
 		});
+
 
 	});
 }

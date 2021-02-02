@@ -6,6 +6,8 @@ block content
   h1 Plant production 
   form(action='/plant_production' method='POST')
     #form-group
+      label(style='color:green', id='smp') Suggested market price (SEK): #{smp}
+      br
       label Market price (SEK):
       br
       input(id='p' name='price', type='number', step='0.5')
@@ -30,3 +32,4 @@ block content
     script document.getElementById('r').value=#{r*100};
     script document.getElementById('p').value=#{p};
     script if(#{s} > 0) { document.getElementById('s').click(); }
+    script(src='js/plant_production.js')

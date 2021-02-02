@@ -10,15 +10,15 @@ function change_wind(wind){
 
 	if(wind > mean){
 		if(wind > qU){
-			prob = 6;
+			prob = 9; // 10%
 		}else{
-			prob = 4;
+			prob = 5; // 50%
 		}
 	}else{
 		if(wind < qL){
-			prob = (10-8);
+			prob = (10-8); // 80%
 		}else{
-			prob = (10-7);
+			prob = (10-6); // 60%
 		}
 	}
 

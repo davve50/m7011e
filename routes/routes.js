@@ -179,6 +179,7 @@ router.get('/get_status', function(req, res){
 				merged["total_consumption"] = sims[0].total_consumption;
 				merged["total_production"] = sims[0].total_production;
 				merged["price"] = sims[0].price;
+				merged["smp"] = sims[0].sprice;
 				merged["wind"] = sims[0].wind;
 				merged["num_con"] = sims[0].consumers;
 				merged["blackouts"] = 0;
@@ -461,7 +462,7 @@ router.get('/plant_production', function(req,res){
 			Sim.find({}, function(err, sim){
 				if(err) console.log(err)
 				else {
-					res.render('plant_production',{rb:client[0].ratio_buffer, r:client[0].rate, s:client[0].status, p:sim[0].price});
+					res.render('plant_production',{rb:client[0].ratio_buffer, r:client[0].rate, s:client[0].status, p:sim[0].price, smp:sim[0].sprice});
 				}
 			});
 		}

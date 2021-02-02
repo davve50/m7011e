@@ -14,6 +14,10 @@ let SimSchema = mongoose.Schema({
 		type: Number,
 		required: true,
 	},
+	sprice:{
+		type: Number,
+		required: true,
+	},
 	wind:{
 		type: Number,
 		required: true,
