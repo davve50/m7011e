@@ -1,5 +1,4 @@
 # M7011e - Design of Dynamic Web Systems
-## Quickstart guide
 
 ## Authors
 Group: **Double D's**
